@@ -17,8 +17,8 @@ namespace ValueAtRisk.Models
         /// <param name="tToNextAverage">number of business days until the averaging period's start</param>
         /// <param name="noOfFixings">number of business days within the averaging period</param>
         /// <param name="noOfFixingsFixed">number of days that have already settled within the averaging period</param>
-        public OptionInputAsian(double assetPrice, double averageSoFar, DateTime startPricingDate, DateTime endPricingDate, DateTime valuationDate,double riskFreeRate,
-            double volatility, int noOfFixingsFixed, double costOfCarry=0) 
+        public OptionInputAsian(double assetPrice,  DateTime startPricingDate, DateTime endPricingDate, DateTime valuationDate,double riskFreeRate,
+            double volatility, double costOfCarry=0, double averageSoFar=0, int noOfFixingsFixed=0) 
             : base(assetPrice, endPricingDate, valuationDate, riskFreeRate,volatility,costOfCarry)
         {
             AverageSoFar = averageSoFar;

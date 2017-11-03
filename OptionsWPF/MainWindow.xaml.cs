@@ -32,12 +32,62 @@ namespace OptionsWPF
         {
             groupBoxAsian.IsEnabled = true;
             groupBoxEuropean.IsEnabled = false;
+            if (groupBoxEuropean.IsEnabled == false)
+            {
+                txtAssetPrice.Text = "";
+                txtRiskFreeRate.Text = "";
+                txtVolatility.Text = "";
+                endDate.SelectedDate = null;
+                endDate.Text = "";
+                valuationDate.SelectedDate = null;
+                valuationDate.Text = "";
+                if (!string.IsNullOrEmpty(txtCostOfCarry.Text))
+                {
+                    txtCostOfCarry.Text = "";
+                }
+                if (!string.IsNullOrEmpty(txtDiscreteEuropean.ToString()))
+                {
+                    txtDiscreteEuropean.Content = "";
+                }
+            }
         }
 
         private void rbEuropean_Checked(object sender, RoutedEventArgs e)
         {
             groupBoxEuropean.IsEnabled = true;
             groupBoxAsian.IsEnabled = false;
+            if (groupBoxAsian.IsEnabled == false)
+            {
+                txtAssetPriceA.Text = "";
+                txtRiskFreeRateA.Text = "";
+                txtVolatilityA.Text = "";
+                startDateA.SelectedDate = null;
+                startDateA.Text = "";
+                endDateA.SelectedDate = null;
+                endDateA.Text = "";
+                valuationA.SelectedDate = null;
+                valuationA.Text = "";
+                if (!string.IsNullOrEmpty(txtAverageSoFarA.Text))
+                {
+                    txtAverageSoFarA.Text = "";
+                }
+                if (!string.IsNullOrEmpty(txtNoFixingsFixedA.Text))
+                {
+                    txtNoFixingsFixedA.Text = "";
+                }
+                if (!string.IsNullOrEmpty(txtCostOfCarryA.Text))
+                {
+                    txtCostOfCarryA.Text = "";
+                }
+                if (!string.IsNullOrEmpty(txtDiscreteAsian.ToString()))
+                {
+                    txtDiscreteAsian.Content = "";
+                }
+                if (!string.IsNullOrEmpty(txtAsianCurran.ToString()))
+                {
+                    txtAsianCurran.Content = "";
+                }
+            }
         }
 
         private void btnCalculateEuropean_Click(object sender, RoutedEventArgs e)
@@ -48,10 +98,14 @@ namespace OptionsWPF
             var assetPrice = double.Parse(txtAssetPrice.Text);
             var riskFreeRate = double.Parse(txtRiskFreeRate.Text);
             var volatility = double.Parse(txtVolatility.Text);
-            var costOfCarry = double.Parse(txtCostOfCarry.Text);
+            double costOfCarry = 0;
             var endPricingDT = DateTime.Parse(endDate.Text);
             var valuationDT = DateTime.Parse(valuationDate.Text);
             double result = 0;
+            if (!string.IsNullOrEmpty(txtCostOfCarryA.Text))
+            {
+                costOfCarry = double.Parse(txtCostOfCarryA.Text);
+            }
             if (rbCall.IsChecked==true)
             {
                 option = new Option(callPutType: Option.CallPutType.Call, optionStyle: Option.OptionStyle.European, strikePrice: double.Parse(txtStrikePrice.Text));
@@ -78,27 +132,39 @@ namespace OptionsWPF
             var assetPrice = double.Parse(txtAssetPriceA.Text);
             var riskFreeRate = double.Parse(txtRiskFreeRateA.Text);
             var volatility = double.Parse(txtVolatilityA.Text);
-            var costOfCarry = double.Parse(txtCostOfCarryA.Text);
             var startPricingDT = DateTime.Parse(startDateA.Text);
             var endPricingDT = DateTime.Parse(endDateA.Text);
             var valuationDT = DateTime.Parse(valuationA.Text);
-            var averageSoFar = double.Parse(txtAverageSoFarA.Text);
-            var noOfFixingsFixed = int.Parse(txtNoFixingsFixedA.Text);
+            double averageSoFar = 0;
+            int noOfFixingsFixed = 0;
+            double costOfCarry = 0;
             double result1 = 0;
             double result2 = 0;
+            if (!string.IsNullOrEmpty(txtAverageSoFarA.Text))
+            {
+                 averageSoFar = double.Parse(txtAverageSoFarA.Text);
+            }
+            if (!string.IsNullOrEmpty(txtNoFixingsFixedA.Text))
+            {
+                 noOfFixingsFixed = int.Parse(txtNoFixingsFixedA.Text);
+            }
+            if (!string.IsNullOrEmpty(txtCostOfCarryA.Text))
+            {
+                 costOfCarry = double.Parse(txtCostOfCarryA.Text);
+            }
             if (rbCall.IsChecked==true)
             {
                 option = new Option(callPutType: Option.CallPutType.Call, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInputAsian(assetPrice, averageSoFar, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility, noOfFixingsFixed,
-                    costOfCarry);
+                optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
+                    costOfCarry, averageSoFar, noOfFixingsFixed);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
             }
             else if (rbPut.IsChecked==true)
             {
                 option = new Option(callPutType: Option.CallPutType.Put, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInputAsian(assetPrice, averageSoFar, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility, noOfFixingsFixed,
-                    costOfCarry);
+                optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
+                    costOfCarry, averageSoFar, noOfFixingsFixed);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
             }

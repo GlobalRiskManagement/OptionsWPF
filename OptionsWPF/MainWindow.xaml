@@ -8,67 +8,67 @@
         Title="MainWindow" Height="500" Width="750">
     <Grid>
         <Label Content="Option Calculator" HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontStyle="Italic" FontSize="22"/>
-        <GroupBox Header="Option Style" HorizontalAlignment="Left" Height="79" Margin="24,74,0,0" VerticalAlignment="Top" Width="100">
+        <GroupBox Header="Option Style*" HorizontalAlignment="Left" Height="79" Margin="24,74,0,0" VerticalAlignment="Top" Width="100">
             <Grid>
                 <RadioButton Content="Asian" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Name="rbAsian" Checked="rbAsian_Checked"/>
                 <RadioButton Content="European" HorizontalAlignment="Left" Margin="0,30,0,0" Name="rbEuropean" Checked="rbEuropean_Checked"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Type" HorizontalAlignment="Left" Height="79" Margin="24,169,0,0" VerticalAlignment="Top" Width="100">
+        <GroupBox Header="Type*" HorizontalAlignment="Left" Height="79" Margin="24,169,0,0" VerticalAlignment="Top" Width="100">
             <Grid>
                 <RadioButton Content="Call" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Name="rbCall"/>
                 <RadioButton Content="Put" HorizontalAlignment="Left" Margin="0,30,0,0" Name="rbPut"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Strike Price" HorizontalAlignment="Left" Height="67" Margin="24,269,0,0" VerticalAlignment="Top" Width="100">
+        <GroupBox Header="Strike Price*" HorizontalAlignment="Left" Height="67" Margin="24,269,0,0" VerticalAlignment="Top" Width="100">
             <Grid>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="0,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="88" Name="txtStrikePrice"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="European Option" HorizontalAlignment="Left" Name="groupBoxEuropean" Height="348" Margin="173,74,0,0" VerticalAlignment="Top" Width="273">
             <Grid>
-                <Label Content="Asset Price" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="Risk Free Rate" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
-                <Label Content="Volatility" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
-                <Label Content="Cost Of Carry" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-                <Label Content="End Pricing Date" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
-                <Label Content="Valuation Date" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top"/>
+                <Label Content="Asset Price*" HorizontalAlignment="Left" Margin="10,17,0,0" VerticalAlignment="Top"/>
+                <Label Content="Risk Free Rate*" HorizontalAlignment="Left" Margin="10,37,0,0" VerticalAlignment="Top"/>
+                <Label Content="Volatility*" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top"/>
+                <Label Content="Cost Of Carry*" HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top"/>
+                <Label Content="End Pricing Date*" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top"/>
+                <Label Content="Valuation Date*" HorizontalAlignment="Left" Margin="10,107,0,0" VerticalAlignment="Top"/>
                 <Label Content="Discrete European:" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="125,12,0,0" TextWrapping="Wrap" Name="txtAssetPrice" Text="" VerticalAlignment="Top" Width="120"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="125,32,0,0" TextWrapping="Wrap" Name="txtRiskFreeRate" Text="" VerticalAlignment="Top" Width="120"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="125,52,0,0" TextWrapping="Wrap" Name="txtVolatility" Text="" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="125,72,0,0" TextWrapping="Wrap" Name="txtCostOfCarry" Text="" VerticalAlignment="Top" Width="120"/>
-                <DatePicker HorizontalAlignment="Left" Margin="125,102,0,0" Name="endDate" VerticalAlignment="Top"/>
-                <DatePicker HorizontalAlignment="Left" Margin="125,130,0,0" Name="valuationDate" VerticalAlignment="Top"/>
+                <DatePicker HorizontalAlignment="Left" Margin="125,83,0,0" Name="endDate" VerticalAlignment="Top"/>
+                <DatePicker HorizontalAlignment="Left" Margin="125,107,0,0" Name="valuationDate" VerticalAlignment="Top"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="125,136,0,0" TextWrapping="Wrap" Name="txtCostOfCarry" Text="" VerticalAlignment="Top" Width="120"/>
                 <Label Content="" HorizontalAlignment="Left" Margin="125,232,0,0" VerticalAlignment="Top" Name="txtDiscreteEuropean" Width="102" FontWeight="Bold"/>
                 <Button Content="Calculate European Option" HorizontalAlignment="Left" Margin="10,197,0,0" VerticalAlignment="Top" Width="235" FontWeight="Bold" Name="btnCalculateEuropean" Click="btnCalculateEuropean_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Asian Option" HorizontalAlignment="Left" Name="groupBoxAsian" Height="386" Margin="470,74,0,0" VerticalAlignment="Top" Width="264">
             <Grid>
-                <Label Content="Asset Price" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <Label Content="Risk Free Rate" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
-                <Label Content="Volatility" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
-                <Label Content="Cost Of Carry" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
-                <Label Content="Start Pricing Date" HorizontalAlignment="Left" Margin="10,98,0,0" VerticalAlignment="Top"/>
-                <Label Content="End Pricing Date" HorizontalAlignment="Left" Margin="10,128,0,0" VerticalAlignment="Top"/>
-                <Label Content="Valuation Date" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top"/>
-                <Label Content="Average So Far" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top"/>
-                <Label Content="No. Of Fixings Fixed" HorizontalAlignment="Left" Margin="10,209,0,0" VerticalAlignment="Top"/>
+                <Label Content="Asset Price*" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                <Label Content="Risk Free Rate*" HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top"/>
+                <Label Content="Volatility*" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+                <Label Content="Start Pricing Date*" HorizontalAlignment="Left" Margin="10,81,0,0" VerticalAlignment="Top"/>
+                <Label Content="End Pricing Date*" HorizontalAlignment="Left" Margin="10,111,0,0" VerticalAlignment="Top"/>
+                <Label Content="Valuation Date*" HorizontalAlignment="Left" Margin="10,141,0,0" VerticalAlignment="Top"/>
+                <Label Content="Average So Far" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalAlignment="Top"/>
+                <Label Content="No. Of Fixings Fixed" HorizontalAlignment="Left" Margin="10,192,0,0" VerticalAlignment="Top"/>
+                <Label Content="Cost Of Carry" HorizontalAlignment="Left" Margin="10,215,0,0" VerticalAlignment="Top"/>
                 <Label Content="Discrete Asian:" HorizontalAlignment="Left" Margin="10,302,0,0" VerticalAlignment="Top" FontWeight="Bold" RenderTransformOrigin="0.502,1.602"/>
                 <Label Content="Asian Curran:" HorizontalAlignment="Left" Margin="10,328,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="121,10,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Name="txtAssetPriceA"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="121,30,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Name="txtRiskFreeRateA"/>
                 <TextBox HorizontalAlignment="Left" Height="23" Margin="121,50,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Name="txtVolatilityA"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,70,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Name="txtCostOfCarryA"/>
-                <DatePicker HorizontalAlignment="Left" Margin="121,97,0,0" VerticalAlignment="Top" Name="startDateA"/>
-                <DatePicker HorizontalAlignment="Left" Margin="121,127,0,0" VerticalAlignment="Top" Name="endDateA"/>
-                <DatePicker HorizontalAlignment="Left" Margin="121,157,0,0" VerticalAlignment="Top" Name="valuationA"/>
+                <DatePicker HorizontalAlignment="Left" Margin="121,80,0,0" VerticalAlignment="Top" Name="startDateA"/>
+                <DatePicker HorizontalAlignment="Left" Margin="121,110,0,0" VerticalAlignment="Top" Name="endDateA"/>
+                <DatePicker HorizontalAlignment="Left" Margin="121,140,0,0" VerticalAlignment="Top" Name="valuationA"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,170,0,0" TextWrapping="Wrap" Name="txtAverageSoFarA" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,194,0,0" TextWrapping="Wrap" Name="txtNoFixingsFixedA" VerticalAlignment="Top" Width="120"/>
+                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,215,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Name="txtCostOfCarryA"/>
+                <Button Content="Calculate Asian Option" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Width="231" FontWeight="Bold" Name="btnCalculateAsian" Click="btnCalculateAsian_Click"/>
                 <Label Content="" HorizontalAlignment="Left" Margin="129,302,0,0" VerticalAlignment="Top" Name="txtDiscreteAsian" Width="102" FontWeight="Bold"/>
                 <Label Content="" HorizontalAlignment="Left" Margin="129,328,0,0" VerticalAlignment="Top" Name="txtAsianCurran" Width="102" FontWeight="Bold"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,187,0,0" TextWrapping="Wrap" Name="txtAverageSoFarA" VerticalAlignment="Top" Width="120"/>
-                <TextBox HorizontalAlignment="Left" Height="23" Margin="121,211,0,0" TextWrapping="Wrap" Name="txtNoFixingsFixedA" VerticalAlignment="Top" Width="120"/>
-                <Button Content="Calculate Asian Option" HorizontalAlignment="Left" Margin="10,258,0,0" VerticalAlignment="Top" Width="231" FontWeight="Bold" Name="btnCalculateAsian" Click="btnCalculateAsian_Click"/>
             </Grid>
         </GroupBox>
 
