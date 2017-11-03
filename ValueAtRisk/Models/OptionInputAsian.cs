@@ -25,7 +25,7 @@ namespace ValueAtRisk.Models
             //TODO
             //TtoNextAverage = ConvertToYears(startPricingDate,valuationDate);
             TtoNextAverage = ConvertToYears(valuationDate, startPricingDate);
-            NoOfFixings = ConvertToYears(endPricingDate, startPricingDate);
+            NoOfFixings = ConvertToYears(startPricingDate, endPricingDate);
             NoOfFixingsFixed = noOfFixingsFixed;
         }
     }

@@ -24,23 +24,25 @@ namespace ValueAtRisk.Models
         {
             AssetPrice = assetPrice;
             //TODO
-           // TtoMaturity = ConvertToYears(endPricingDate,valuationDate);
+            // TtoMaturity = ConvertToYears(endPricingDate,valuationDate);
             TtoMaturity = ConvertToYears(valuationDate, endPricingDate);
             RiskFreeRate = ConvertToContinuous(riskFreeRate);
             CostOfCarry = ConvertToContinuous(costOfCarry);
             Volatility = volatility;
         }
-        //public double ConvertToYears(double input_t)
-        //{
-        //    return input_t / 365;
-        //}
-        //if the number is less than 1=>the time period is less than 1 year.
-        public double ConvertToYears(DateTime date1, DateTime date2)
+
+        /// <summary>
+        /// if the number is less than 1=>the time period is less than 1 year.
+        /// </summary>
+        /// <param name="date1"></param>
+        /// <param name="date2"></param>
+        /// <returns></returns>
+        public double ConvertToYears(DateTime startDate, DateTime endDate)
         {
             //TODO change to Utilities.Utilities.BusinessDaysCount when provided with a list of holidays
-            var days = Utilities.Utilities.GetBusinessDays(date2, date1);
+            var days = Utilities.Utilities.GetBusinessDays(endDate, startDate);
             double year = 365;
-            double res = (double)(days/year);
+            double res = (double)(days / year);
             return res;
         }
 
