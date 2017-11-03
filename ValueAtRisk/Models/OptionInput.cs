@@ -22,10 +22,9 @@ namespace ValueAtRisk.Models
         /// <param name="volatility">absolute value, 20% would be 0.2</param>
         public OptionInput(double assetPrice,  DateTime endPricingDate, DateTime valuationDate, double riskFreeRate, double volatility, double costOfCarry = 0)
         {
+            double year = 365;
             AssetPrice = assetPrice;
-            //TODO
-            // TtoMaturity = ConvertToYears(endPricingDate,valuationDate);
-            TtoMaturity = ConvertToYears(valuationDate, endPricingDate);
+            TtoMaturity = (ConvertToBusinessDays(valuationDate, endPricingDate))/year;
             RiskFreeRate = ConvertToContinuous(riskFreeRate);
             CostOfCarry = ConvertToContinuous(costOfCarry);
             Volatility = volatility;
@@ -34,16 +33,14 @@ namespace ValueAtRisk.Models
         /// <summary>
         /// if the number is less than 1=>the time period is less than 1 year.
         /// </summary>
-        /// <param name="date1"></param>
-        /// <param name="date2"></param>
+        /// <param name="startDate">smaller date</param>
+        /// <param name="endDate">bigger date</param>
         /// <returns></returns>
-        public double ConvertToYears(DateTime startDate, DateTime endDate)
+        public double ConvertToBusinessDays(DateTime startDate, DateTime endDate)
         {
             //TODO change to Utilities.Utilities.BusinessDaysCount when provided with a list of holidays
-            var days = Utilities.Utilities.GetBusinessDays(endDate, startDate);
-            double year = 365;
-            double res = (double)(days / year);
-            return res;
+            var days = Utilities.Utilities.GetBusinessDays(startDate,endDate);
+            return days;
         }
 
         public double ConvertToContinuous(double rate)

@@ -22,10 +22,10 @@ namespace ValueAtRisk.Models
             : base(assetPrice, endPricingDate, valuationDate, riskFreeRate,volatility,costOfCarry)
         {
             AverageSoFar = averageSoFar;
-            //TODO
-            //TtoNextAverage = ConvertToYears(startPricingDate,valuationDate);
-            TtoNextAverage = ConvertToYears(valuationDate, startPricingDate);
-            NoOfFixings = ConvertToYears(startPricingDate, endPricingDate);
+            double year = 365;
+            //TtoNextAverage = ConvertToBusinessDays(startPricingDate,valuationDate);
+            TtoNextAverage = (ConvertToBusinessDays(valuationDate, startPricingDate))/year;
+            NoOfFixings = ConvertToBusinessDays(startPricingDate, endPricingDate);
             NoOfFixingsFixed = noOfFixingsFixed;
         }
     }
