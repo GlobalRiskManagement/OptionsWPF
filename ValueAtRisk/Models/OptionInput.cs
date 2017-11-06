@@ -22,7 +22,7 @@ namespace ValueAtRisk.Models
         /// <param name="volatility">absolute value, 20% would be 0.2</param>
         public OptionInput(double assetPrice,  DateTime endPricingDate, DateTime valuationDate, double riskFreeRate, double volatility, double costOfCarry = 0)
         {
-            double year = 365;
+            const double year = 252;
             AssetPrice = assetPrice;
             TtoMaturity = (ConvertToBusinessDays(valuationDate, endPricingDate))/year;
             RiskFreeRate = ConvertToContinuous(riskFreeRate);
