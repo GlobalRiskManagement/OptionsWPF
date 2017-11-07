@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Utilities;
 
 namespace ValueAtRisk.Models
 {
@@ -22,9 +23,8 @@ namespace ValueAtRisk.Models
             : base(assetPrice, endPricingDate, valuationDate, riskFreeRate,volatility,costOfCarry)
         {
             AverageSoFar = averageSoFar;
-            double year = 365;
             //TtoNextAverage = ConvertToBusinessDays(startPricingDate,valuationDate);
-            TtoNextAverage = (ConvertToBusinessDays(valuationDate, startPricingDate))/year;
+            TtoNextAverage = (ConvertToBusinessDays(valuationDate, startPricingDate))/Constants.DaysInYear;
             NoOfFixings = ConvertToBusinessDays(startPricingDate, endPricingDate);
             NoOfFixingsFixed = noOfFixingsFixed;
         }

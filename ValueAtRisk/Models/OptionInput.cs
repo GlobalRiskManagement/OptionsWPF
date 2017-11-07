@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Utilities;
 
 namespace ValueAtRisk.Models
 {
@@ -22,9 +23,8 @@ namespace ValueAtRisk.Models
         /// <param name="volatility">absolute value, 20% would be 0.2</param>
         public OptionInput(double assetPrice,  DateTime endPricingDate, DateTime valuationDate, double riskFreeRate, double volatility, double costOfCarry = 0)
         {
-            const double year = 252;
             AssetPrice = assetPrice;
-            TtoMaturity = (ConvertToBusinessDays(valuationDate, endPricingDate))/year;
+            TtoMaturity = (ConvertToBusinessDays(valuationDate, endPricingDate))/Constants.DaysInYear;
             RiskFreeRate = ConvertToContinuous(riskFreeRate);
             CostOfCarry = ConvertToContinuous(costOfCarry);
             Volatility = volatility;
