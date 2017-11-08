@@ -71,10 +71,6 @@ namespace OptionsWPF
                 {
                     txtAverageSoFarA.Text = "";
                 }
-                if (!string.IsNullOrEmpty(txtNoFixingsFixedA.Text))
-                {
-                    txtNoFixingsFixedA.Text = "";
-                }
                 if (!string.IsNullOrEmpty(txtCostOfCarryA.Text))
                 {
                     txtCostOfCarryA.Text = "";
@@ -121,7 +117,7 @@ namespace OptionsWPF
                 result = optionCalc.DiscreteEuropeanHHM(option, optionInput);
             }
             ShowErrorMessage();
-            txtDiscreteEuropean.Content = result.ToString();
+            txtDiscreteEuropean.Content = RoundUpDouble(result);
         }
 
         private void btnCalculateAsian_Click(object sender, RoutedEventArgs e)
@@ -136,17 +132,12 @@ namespace OptionsWPF
             var endPricingDT = DateTime.Parse(endDateA.Text);
             var valuationDT = DateTime.Parse(valuationA.Text);
             double averageSoFar = 0;
-            int noOfFixingsFixed = 0;
             double costOfCarry = 0;
             double result1 = 0;
             double result2 = 0;
             if (!string.IsNullOrEmpty(txtAverageSoFarA.Text))
             {
                  averageSoFar = double.Parse(txtAverageSoFarA.Text);
-            }
-            if (!string.IsNullOrEmpty(txtNoFixingsFixedA.Text))
-            {
-                 noOfFixingsFixed = int.Parse(txtNoFixingsFixedA.Text);
             }
             if (!string.IsNullOrEmpty(txtCostOfCarryA.Text))
             {
@@ -156,7 +147,7 @@ namespace OptionsWPF
             {
                 option = new Option(callPutType: Option.CallPutType.Call, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
                 optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
-                    costOfCarry, averageSoFar, noOfFixingsFixed);
+                    costOfCarry, averageSoFar);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
             }
@@ -164,13 +155,13 @@ namespace OptionsWPF
             {
                 option = new Option(callPutType: Option.CallPutType.Put, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
                 optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
-                    costOfCarry, averageSoFar, noOfFixingsFixed);
+                    costOfCarry, averageSoFar);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
             }
             ShowErrorMessage();
-            txtDiscreteAsian.Content = result1.ToString();
-            txtAsianCurran.Content = result2.ToString();
+            txtDiscreteAsian.Content = RoundUpDouble(result1);
+            txtAsianCurran.Content = RoundUpDouble(result2);
         }
         void ShowErrorMessage()
         {
@@ -178,6 +169,14 @@ namespace OptionsWPF
             {
                 MessageBox.Show("Please provide a call put type!", "Error");
             }
+        }
+
+        string RoundUpDouble(double d)
+        {
+            var result = Math.Round(d, 4);
+            if (result < d)
+                result += 0.0001; 
+            return result.ToString();
         }
     }
 }
