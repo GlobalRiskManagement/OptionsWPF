@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using ValueAtRisk.Models;
+using ValueAtRisk.Models.Inputs;
+using ValueAtRisk.Models.Instruments;
 
 namespace ValueAtRisk.Calculations
 {
@@ -14,7 +16,7 @@ namespace ValueAtRisk.Calculations
         /// <param name="optionInput"></param>
         /// <returns></returns>
         /// 
-        public double DiscreteAsianHHM(Option option, OptionInputAsian optionInput)
+        public double DiscreteAsianHHM(Option option, AsianOptionInput optionInput)
         {
             double d1, d2, h, EA, EA2, vA, OptionValue;
             double result = 0;
@@ -32,7 +34,7 @@ namespace ValueAtRisk.Calculations
 
                 if (optionInput.NoOfFixingsFixed > 0)
                 {
-                    if (optionInput.AverageSoFar > optionInput.NoOfFixings / optionInput.NoOfFixingsFixed *
+                    if (optionInput.AverageSoFar > (double)optionInput.NoOfFixings / optionInput.NoOfFixingsFixed *
                         option.StrikePrice)
                     {
                         if (option.ChosenCallPutType == Option.CallPutType.Put)
@@ -51,9 +53,9 @@ namespace ValueAtRisk.Calculations
                 }
                 if (optionInput.NoOfFixingsFixed == optionInput.NoOfFixings - 1)
                 {
-                    option.StrikePrice = optionInput.NoOfFixings * option.StrikePrice -
-                                         (optionInput.NoOfFixings - 1 * optionInput.AverageSoFar);
-                    return result = DiscreteEuropeanHHM(option, optionInput) * 1 / optionInput.NoOfFixings;
+                    //option.StrikePrice = optionInput.NoOfFixings * option.StrikePrice -
+                    //                     (optionInput.NoOfFixings - 1 * optionInput.AverageSoFar);
+                    //return result = DiscreteEuropeanHHM(option, optionInput) * 1 / optionInput.NoOfFixings;
                 }
                 if (optionInput.CostOfCarry == 0)
                 {
@@ -99,8 +101,8 @@ namespace ValueAtRisk.Calculations
                 if (optionInput.NoOfFixingsFixed > 0)
                 {
                     option.StrikePrice =
-                        optionInput.NoOfFixings / (optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) *
-                        option.StrikePrice - optionInput.NoOfFixingsFixed /
+                        optionInput.NoOfFixings / ((double)optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) *
+                        option.StrikePrice -(double) optionInput.NoOfFixingsFixed /
                         (optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) * optionInput.AverageSoFar;
                 }
                 d1 = (Math.Log(EA / option.StrikePrice) + Math.Pow(vA, 2) / 2 * optionInput.TtoMaturity) /
@@ -132,7 +134,7 @@ namespace ValueAtRisk.Calculations
         /// <param name="optionInput"></param>
         /// <returns></returns>
         /// 
-        public double AsianCurranApprox(Option option, OptionInputAsian optionCalcInput)
+        public double AsianCurranApprox(Option option, AsianOptionInput optionInput)
         {
             double dt, my, myi, vxi, vi, vx, Km, sum1, sum2, ti, EA, z;
             double result = 0;
@@ -140,20 +142,20 @@ namespace ValueAtRisk.Calculations
 
             if (option.ChosenCallPutType == Option.CallPutType.Put)
                 z = -1;
-            dt = (optionCalcInput.TtoMaturity - optionCalcInput.TtoNextAverage) / (optionCalcInput.NoOfFixings - 1);
-            if (optionCalcInput.CostOfCarry == 0)
-                EA = optionCalcInput.AssetPrice;
+            dt = (optionInput.TtoMaturity - optionInput.TtoNextAverage) / (optionInput.NoOfFixings - 1);
+            if (optionInput.CostOfCarry == 0)
+                EA = optionInput.AssetPrice;
             else
             {
-                EA = optionCalcInput.AssetPrice / optionCalcInput.NoOfFixings *
-                     Math.Exp(optionCalcInput.CostOfCarry * optionCalcInput.TtoNextAverage) *
-                     (1 - Math.Exp(optionCalcInput.CostOfCarry * dt * optionCalcInput.NoOfFixings)) /
-                     (1 - Math.Exp(optionCalcInput.CostOfCarry * dt));
+                EA = optionInput.AssetPrice / optionInput.NoOfFixings *
+                     Math.Exp(optionInput.CostOfCarry * optionInput.TtoNextAverage) *
+                     (1 - Math.Exp(optionInput.CostOfCarry * dt * optionInput.NoOfFixings)) /
+                     (1 - Math.Exp(optionInput.CostOfCarry * dt));
             }
-            if (optionCalcInput.NoOfFixingsFixed > 0)
+            if (optionInput.NoOfFixingsFixed > 0)
             {
-                if (optionCalcInput.AverageSoFar >
-                    optionCalcInput.NoOfFixings / optionCalcInput.NoOfFixingsFixed * option.StrikePrice)
+                if (optionInput.AverageSoFar >
+                    (double)optionInput.NoOfFixings / optionInput.NoOfFixingsFixed * option.StrikePrice)
                 {
                     if (option.ChosenCallPutType == Option.CallPutType.Put)
                     {
@@ -161,74 +163,74 @@ namespace ValueAtRisk.Calculations
                     }
                     if (option.ChosenCallPutType == Option.CallPutType.Call)
                     {
-                        optionCalcInput.AverageSoFar =
-                            optionCalcInput.AverageSoFar * optionCalcInput.NoOfFixingsFixed /
-                            optionCalcInput.NoOfFixings +
-                            EA * (optionCalcInput.NoOfFixings - optionCalcInput.NoOfFixingsFixed) /
-                            optionCalcInput.NoOfFixings;
-                        result = (optionCalcInput.AverageSoFar - option.StrikePrice) *
-                                 Math.Exp(-optionCalcInput.RiskFreeRate * optionCalcInput.TtoMaturity);
+                        optionInput.AverageSoFar =
+                            optionInput.AverageSoFar * optionInput.NoOfFixingsFixed /
+                            optionInput.NoOfFixings +
+                            EA * (optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) /
+                            optionInput.NoOfFixings;
+                        result = (optionInput.AverageSoFar - option.StrikePrice) *
+                                 Math.Exp(-optionInput.RiskFreeRate * optionInput.TtoMaturity);
                         return result;
                     }
                 }
             }
-            if (optionCalcInput.NoOfFixingsFixed == optionCalcInput.NoOfFixings - 1)
+            if (optionInput.NoOfFixingsFixed == optionInput.NoOfFixings - 1)
             {
-                option.StrikePrice = optionCalcInput.NoOfFixings * option.StrikePrice -
-                                     (optionCalcInput.NoOfFixings - 1) * optionCalcInput.AverageSoFar;
-                result = DiscreteEuropeanHHM(option, optionCalcInput) * 1 / optionCalcInput.NoOfFixings;
-                return result;
+                //option.StrikePrice = optionInput.NoOfFixings * option.StrikePrice -
+                //                     (optionInput.NoOfFixings - 1) * optionInput.AverageSoFar;
+                //result = DiscreteEuropeanHHM(option, optionInput) * 1 / optionInput.NoOfFixings;
+                //return result;
             }
-            if (optionCalcInput.NoOfFixingsFixed > 0)
+            if (optionInput.NoOfFixingsFixed > 0)
             {
                 option.StrikePrice =
-                    optionCalcInput.NoOfFixings / (optionCalcInput.NoOfFixings - optionCalcInput.NoOfFixingsFixed) *
-                    option.StrikePrice - optionCalcInput.NoOfFixingsFixed /
-                    (optionCalcInput.NoOfFixings - optionCalcInput.NoOfFixingsFixed) * optionCalcInput.AverageSoFar;
+                    optionInput.NoOfFixings / ((double)optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) *
+                    option.StrikePrice - optionInput.NoOfFixingsFixed /
+                    ((double)optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) * optionInput.AverageSoFar;
             }
 
-            vx = optionCalcInput.Volatility * Math.Sqrt(optionCalcInput.TtoNextAverage +
-                                                        dt * (optionCalcInput.NoOfFixings - 1) *
-                                                        (2 * optionCalcInput.NoOfFixings - 1) /
-                                                        (6 * optionCalcInput.NoOfFixings));
-            my = Math.Log(optionCalcInput.AssetPrice) +
-                 (optionCalcInput.CostOfCarry - optionCalcInput.Volatility * optionCalcInput.Volatility * 0.5) *
-                 (optionCalcInput.TtoNextAverage + (optionCalcInput.NoOfFixings - 1) * dt / 2);
+            vx = optionInput.Volatility * Math.Sqrt(optionInput.TtoNextAverage +
+                                                        dt * (optionInput.NoOfFixings - 1) *
+                                                        (2 * optionInput.NoOfFixings - 1) /
+                                                        (6 * optionInput.NoOfFixings));
+            my = Math.Log(optionInput.AssetPrice) +
+                 (optionInput.CostOfCarry - optionInput.Volatility * optionInput.Volatility * 0.5) *
+                 (optionInput.TtoNextAverage + (optionInput.NoOfFixings - 1) * dt / 2);
             sum1 = 0;
 
-            for (int i = 1; i < optionCalcInput.NoOfFixings + 1; i++)
+            for (int i = 1; i < optionInput.NoOfFixings + 1; i++)
             {
-                ti = dt * i + optionCalcInput.TtoNextAverage - dt;
-                vi = optionCalcInput.Volatility * Math.Sqrt(optionCalcInput.TtoNextAverage + (i - 1) * dt);
-                vxi = optionCalcInput.Volatility * optionCalcInput.Volatility *
-                      (optionCalcInput.TtoNextAverage +
-                       dt * ((i - 1) - i * (i - 1) / (2 * optionCalcInput.NoOfFixings)));
-                myi = Math.Log(optionCalcInput.AssetPrice) +
-                      (optionCalcInput.CostOfCarry - optionCalcInput.Volatility * optionCalcInput.Volatility * 0.5) *
+                ti = dt * i + optionInput.TtoNextAverage - dt;
+                vi = optionInput.Volatility * Math.Sqrt(optionInput.TtoNextAverage + (i - 1) * dt);
+                vxi = optionInput.Volatility * optionInput.Volatility *
+                      (optionInput.TtoNextAverage +
+                       dt * ((i - 1) - i * (i - 1) / (2 * optionInput.NoOfFixings)));
+                myi = Math.Log(optionInput.AssetPrice) +
+                      (optionInput.CostOfCarry - optionInput.Volatility * optionInput.Volatility * 0.5) *
                       ti;
                 sum1 = sum1 + Math.Exp(myi + vxi / (vx * vx) *
                                        (Math.Log(option.StrikePrice) - my) + (vi * vi - vxi * vxi / (vx * vx)) * 0.5);
             }
-            Km = 2 * option.StrikePrice - 1 / optionCalcInput.NoOfFixings * sum1;
+            Km = 2 *option.StrikePrice - 1 / (double)optionInput.NoOfFixings * sum1;
             sum2 = 0;
 
-            for (int i = 1; i < optionCalcInput.NoOfFixings + 1; i++)
+            for (int i = 1; i < optionInput.NoOfFixings + 1; i++)
             {
-                ti = dt * i + optionCalcInput.TtoNextAverage - dt;
-                vi = optionCalcInput.Volatility * Math.Sqrt(optionCalcInput.TtoNextAverage + (i - 1) * dt);
-                vxi = optionCalcInput.Volatility * optionCalcInput.Volatility *
-                      (optionCalcInput.TtoNextAverage +
-                       dt * ((i - 1) - i * (i - 1) / (2 * optionCalcInput.NoOfFixings)));
-                myi = Math.Log(optionCalcInput.AssetPrice) +
-                      (optionCalcInput.CostOfCarry - optionCalcInput.Volatility * optionCalcInput.Volatility * 0.5) *
+                ti = dt * i + optionInput.TtoNextAverage - dt;
+                vi = optionInput.Volatility * Math.Sqrt(optionInput.TtoNextAverage + (i - 1) * dt);
+                vxi = optionInput.Volatility * optionInput.Volatility *
+                      (optionInput.TtoNextAverage +
+                       dt * ((i - 1) - i * (i - 1) / (2 * optionInput.NoOfFixings)));
+                myi = Math.Log(optionInput.AssetPrice) +
+                      (optionInput.CostOfCarry - optionInput.Volatility * optionInput.Volatility * 0.5) *
                       ti;
                 sum2 = sum2 + Math.Exp(myi + vi * vi * 0.5) *
                        Utilities.Utilities.CDF(z * ((my - Math.Log(Km)) / vx + vxi / vx));
             }
-            result = Math.Exp(-optionCalcInput.RiskFreeRate * optionCalcInput.TtoMaturity) * z *
-                     (1 / optionCalcInput.NoOfFixings * sum2 -
+            result = Math.Exp(-optionInput.RiskFreeRate * optionInput.TtoMaturity) * z *
+                     (1 / (double)optionInput.NoOfFixings * sum2 -
                       option.StrikePrice * Utilities.Utilities.CDF(z * (my - Math.Log(Km)) / vx)) *
-                     (optionCalcInput.NoOfFixings - optionCalcInput.NoOfFixingsFixed) / optionCalcInput.NoOfFixings;
+                     (optionInput.NoOfFixings - optionInput.NoOfFixingsFixed) / optionInput.NoOfFixings;
             return result;
         }
 
@@ -239,7 +241,7 @@ namespace ValueAtRisk.Calculations
         /// <param name="optionInput"></param>
         /// <returns></returns>
         /// 
-        public double DiscreteEuropeanHHM(Option option, OptionInput optionInput)
+        public double DiscreteEuropeanHHM(Option option, EuropeanOptionInput optionInput)
         {
             double d1, d2, result = 0;
             d1 = (Math.Log(optionInput.AssetPrice / option.StrikePrice) +

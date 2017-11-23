@@ -664,42 +664,52 @@ namespace Utilities
         }
         /// <summary>
         /// A function that calculates the number of business date within a period with a start and end date
+        /// Including the first and the last dates!
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="firstDay"></param>
+        /// <param name="lastDay"></param>
         /// <returns></returns>
-        public static int GetBusinessDays(DateTime start, DateTime end)
+        public static int BusinessDaysUntil(this DateTime firstDay, DateTime lastDay)
+        //, params DateTime[] bankHolidays
         {
-            if (start.DayOfWeek == DayOfWeek.Saturday)
+            firstDay = firstDay.Date;
+            lastDay = lastDay.Date;
+
+            TimeSpan span = lastDay - firstDay;
+            int businessDays = span.Days + 1;
+            int fullWeekCount = businessDays / 7;
+            // find out if there are weekends during the time exceedng the full weeks
+            if (businessDays > fullWeekCount * 7)
             {
-                start = start.AddDays(2);
-            }
-            else if (start.DayOfWeek == DayOfWeek.Sunday)
-            {
-                start = start.AddDays(1);
+                // we are here to find out if there is a 1-day or 2-days weekend
+                // in the time interval remaining after subtracting the complete weeks
+                int firstDayOfWeek = (int)firstDay.DayOfWeek;
+                int lastDayOfWeek = (int)lastDay.DayOfWeek;
+                if (lastDayOfWeek < firstDayOfWeek)
+                    lastDayOfWeek += 7;
+                if (firstDayOfWeek <= 6)
+                {
+                    if (lastDayOfWeek >= 7)// Both Saturday and Sunday are in the remaining time interval
+                        businessDays -= 2;
+                    else if (lastDayOfWeek >= 6)// Only Saturday is in the remaining time interval
+                        businessDays -= 1;
+                }
+                else if (firstDayOfWeek <= 7 && lastDayOfWeek >= 7)// Only Sunday is in the remaining time interval
+                    businessDays -= 1;
             }
 
-            if (end.DayOfWeek == DayOfWeek.Saturday)
-            {
-                end = end.AddDays(-1);
-            }
-            else if (end.DayOfWeek == DayOfWeek.Sunday)
-            {
-                end = end.AddDays(-2);
-            }
+            // subtract the weekends during the full weeks in the interval
+            businessDays -= fullWeekCount + fullWeekCount;
 
-            int diff = (int)end.Subtract(start).TotalDays;
+            // subtract the number of bank holidays during the time interval
+            //foreach (DateTime bankHoliday in bankHolidays)
+            //{
+            //    DateTime bh = bankHoliday.Date;
+            //    if (firstDay <= bh && bh <= lastDay)
+            //        --businessDays;
+            //}
 
-            int result = diff / 7 * 5 + diff % 7;
-
-            if (end.DayOfWeek < start.DayOfWeek)
-            {
-                return result - 2;
-            }
-            else
-            {
-                return result;
-            }
+            return businessDays;
         }
         public static double CDF(double z)
         {
@@ -722,5 +732,31 @@ namespace Utilities
                                  * t + a2) * t + a1) * t * Math.Exp(-x * x);
             return 0.5 * (1.0 + sign * erf);
         }
+        public static double ConvertToContinuous(double rate)
+        {
+            return Math.Log(1 + rate);
+        }
+
+
+
+        //public Type GetInstrumentType(object financialInstrument)
+        //{
+        //    Type result = null;
+        //    var objectType = financialInstrument.GetType().FullName;
+        //    if (objectType == typeof(Option).FullName)
+        //    {
+        //        result = (Type)Activator.CreateInstance(objectType.GetType());
+        //    }
+        //    else if (objectType == typeof(Future).FullName || objectType == typeof(Swap).FullName)
+        //    {
+        //        result = (Type)Activator.CreateInstance(objectType.GetType());
+        //    }
+        //    else
+        //    {
+        //        Log("Please, provide a valid argument! " + financialInstrument);
+        //        throw new Exception("Please, provide a valid argument! " + financialInstrument);
+        //    }
+        //    return result;
+        //}
     }
 }

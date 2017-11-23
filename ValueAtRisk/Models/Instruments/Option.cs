@@ -1,13 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using ValueAtRisk.Interfaces;
 
-namespace ValueAtRisk.Models
+namespace ValueAtRisk.Models.Instruments
 {
-    public class Option:Transaction
+    public class Option:IInstrument
     {
         public OptionStyle ChosenOptionStyle;
         public CallPutType ChosenCallPutType;
+        public double StrikePrice { get; set; }
+        public string Commodity { get; set; }
+        public string FondsCode { get; set; }
+        public DateTime EndPricingPeriod { get; set; }
         public enum OptionStyle
         {
             Asian,
@@ -19,18 +22,22 @@ namespace ValueAtRisk.Models
             Call,
             Put
         }
-        public double StrikePrice { get; set; }
         /// <summary>
         /// 
         /// </summary>
         /// <param name="optionStyle"></param>
         /// <param name="callPutType"></param>
         /// <param name="strikePrice"></param>
-        public Option(OptionStyle optionStyle, CallPutType callPutType, double strikePrice)
+        public Option(OptionStyle optionStyle, CallPutType callPutType, double strikePrice, string commodity,string fondsCode, DateTime endPricingPeriod)
         {
             ChosenOptionStyle = optionStyle;
             ChosenCallPutType = callPutType;
             StrikePrice = strikePrice;
+            Commodity = commodity;
+            FondsCode = fondsCode;
+            EndPricingPeriod = endPricingPeriod;
         }
+
+
     }
 }

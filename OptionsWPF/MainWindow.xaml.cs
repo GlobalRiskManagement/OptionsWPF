@@ -13,7 +13,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ValueAtRisk.Calculations;
-using ValueAtRisk.Models;
+using ValueAtRisk.Models.Inputs;
+using ValueAtRisk.Models.Instruments;
+
 
 namespace OptionsWPF
 {
@@ -89,7 +91,6 @@ namespace OptionsWPF
         private void btnCalculateEuropean_Click(object sender, RoutedEventArgs e)
         {
             Option option;
-            OptionInput optionInput;
             OptionCalculator optionCalc = new OptionCalculator();
             var assetPrice = double.Parse(txtAssetPrice.Text);
             var riskFreeRate = double.Parse(txtRiskFreeRate.Text);
@@ -104,15 +105,15 @@ namespace OptionsWPF
             }
             if (rbCall.IsChecked==true)
             {
-                option = new Option(callPutType: Option.CallPutType.Call, optionStyle: Option.OptionStyle.European, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
+                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Call,  strikePrice: double.Parse(txtStrikePrice.Text),commodity:"",fondsCode:"", endPricingPeriod:endPricingDT);
+                var optionInput = new EuropeanOptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry);
                 result = optionCalc.DiscreteEuropeanHHM(option, optionInput);
             }
             else if (rbPut.IsChecked==true)
             {
-                option = new Option(callPutType: Option.CallPutType.Put, optionStyle: Option.OptionStyle.European, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
+                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Put, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                var optionInput = new EuropeanOptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry);
                 result = optionCalc.DiscreteEuropeanHHM(option, optionInput);
             }
@@ -123,7 +124,6 @@ namespace OptionsWPF
         private void btnCalculateAsian_Click(object sender, RoutedEventArgs e)
         {
             Option option;
-            OptionInputAsian optionInput;
             OptionCalculator optionCalc = new OptionCalculator();
             var assetPrice = double.Parse(txtAssetPriceA.Text);
             var riskFreeRate = double.Parse(txtRiskFreeRateA.Text);
@@ -145,16 +145,16 @@ namespace OptionsWPF
             }
             if (rbCall.IsChecked==true)
             {
-                option = new Option(callPutType: Option.CallPutType.Call, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
+                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Call, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                var optionInput = new AsianOptionInput(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry, averageSoFar);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
             }
             else if (rbPut.IsChecked==true)
             {
-                option = new Option(callPutType: Option.CallPutType.Put, optionStyle: Option.OptionStyle.Asian, strikePrice: double.Parse(txtStrikePrice.Text));
-                optionInput = new OptionInputAsian(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
+                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Put, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                var optionInput = new AsianOptionInput(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry, averageSoFar);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);

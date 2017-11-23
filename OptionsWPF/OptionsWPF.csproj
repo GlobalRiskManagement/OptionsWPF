@@ -97,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ValueAtRisk\ValueAtRisk.csproj">
-      <Project>{c4036b25-184d-4aa0-9463-b88e6bd16b25}</Project>
+      <Project>{71af1303-be84-4bb6-a283-a4d218e3f2f7}</Project>
       <Name>ValueAtRisk</Name>
     </ProjectReference>
   </ItemGroup>
