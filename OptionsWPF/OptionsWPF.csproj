@@ -103,8 +103,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ValueAtRisk\ValueAtRisk.csproj">
-      <Project>{71af1303-be84-4bb6-a283-a4d218e3f2f7}</Project>
+    <ProjectReference Include="..\..\GRMCalculations\ValueAtRisk\ValueAtRisk.csproj">
+      <Project>{c36a33ad-5cc0-4152-8518-6d9df54ec761}</Project>
       <Name>ValueAtRisk</Name>
     </ProjectReference>
   </ItemGroup>

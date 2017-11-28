@@ -106,14 +106,14 @@ namespace OptionsWPF
             }
             if (rbCall.IsChecked==true)
             {
-                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Call,  strikePrice: double.Parse(txtStrikePrice.Text),commodity:"",fondsCode:"", endPricingPeriod:endPricingDT);
+                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Call,  fixedPrice: double.Parse(txtStrikePrice.Text),commodity:"",fondsCode:"", endPricingPeriod:endPricingDT);
                 var optionInput = new EuropeanOptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry);
                 result = optionCalc.DiscreteEuropeanHHM(option, optionInput);
             }
             else if (rbPut.IsChecked==true)
             {
-                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Put, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                option = new Option(optionStyle: Option.OptionStyle.European, callPutType: Option.CallPutType.Put, fixedPrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
                 var optionInput = new EuropeanOptionInput(assetPrice, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry);
                 result = optionCalc.DiscreteEuropeanHHM(option, optionInput);
@@ -146,7 +146,7 @@ namespace OptionsWPF
             }
             if (rbCall.IsChecked==true)
             {
-                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Call, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Call, fixedPrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
                 var optionInput = new AsianOptionInput(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry, averageSoFar);
                 result2 = optionCalc.AsianCurranApprox(option, optionInput);
@@ -154,7 +154,7 @@ namespace OptionsWPF
             }
             else if (rbPut.IsChecked==true)
             {
-                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Put, strikePrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
+                option = new Option(optionStyle: Option.OptionStyle.Asian, callPutType: Option.CallPutType.Put, fixedPrice: double.Parse(txtStrikePrice.Text), commodity: "", fondsCode: "", endPricingPeriod: endPricingDT);
                 var optionInput = new AsianOptionInput(assetPrice, startPricingDT, endPricingDT, valuationDT, riskFreeRate, volatility,
                     costOfCarry, averageSoFar);
                 result1 = optionCalc.DiscreteAsianHHM(option, optionInput);
